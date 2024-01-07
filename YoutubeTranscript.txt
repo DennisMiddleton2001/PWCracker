@@ -1,0 +1,33 @@
+Hello, today we will be talking about password storage and basic concepts on how to crack a password.  If a developer is smart, he doesn't store clear text authentication secrets.  Instead, when a user enters a password, it is run through a hashing algorithm and the hash is stored on disk or sent over the network. Of course, to be compliant with various standards, mathematical geniuses developed well-known hashing algorithms that maximize information security.  If Joe-Bag-o-Donuts developed his own encryption method for securing your bank account, who's to know if there are holes that could be exploited.
+
+Today, we will be looking at some common hashing functions and performing dictionary and brute force attacks against them.
+
+To follow along, you should have Python and GitHub Desktop installed.  If you don't have both of these installed on your system, please pause this video and go to my video entitled "Getting Started".  I will be right here waiting.
+
+So without sounding like I work for the department of redundancy department, let's get started.  First, open your browser and go to my GitHub page and clone PWCracker to a local folder. The link is in the description.
+
+https://github.com/DennisMiddleton2001/PWCracker
+
+This repository contains the sources and a sample dictionary.txt file that can be modified or replaced with a different one if you like.  Also, I want to give a huge thank you to Dmitri Rozmanof for providing the algorithms that were deprecated by hashlib.
+
+So, let's take a look at the various hashing algorithms available today.  I found the best source at Browserling tools forward slash, all-hashes.  I found this so useful that I bookmarked the page.
+
+https://www.browserling.com/tools/all-hashes
+
+Let's start by entering a sample password that would be easily found by a dictionary attack.  Wisely, I chose "Password1".  Although, I trust the publisher of this page, I don't think it would be a good idea to be sending an actual clear text password to a web site unless I knew for sure that they weren't adding them to a cracking dictionary of their own.  That's what I would do, so don't do anything I would do.  From the web site, let's copy the md4 hash to the clipboard and see if the hash resolves to a password.
+
+To do this, type Python Crackattack.py -p md4 pastedhash.  Almost immediately, we have resolved the hash to a password in the database.  Now, what we're doing here is going through the dictionary file and computing hashes and comparing them to the one we entered.  To make this process faster, it would be ideal to have these hashes already computed in a relational database and simply do an indexed search for the hash, so we can quickly spit out the password.  I'm sure the NSA is doing this as I speak.  If you have that type of budget, the sample code could be easily modified to make that happen too.
+
+If the dictionary doesn't resolve the hash, there's a simple example of how to perform a random brute force attack using ASCII tables.  Because MD4 is very slow, let's switch to MD5 and perform another search.  This time, we will use "a pipe tilde bang (which we know is not in the dictionary). Now we'll copy the MD5 hash and run the script against it.  This will take a minute, but the code could be optimized for multithreading and run on a cloud server farm with 400 CPU's.  We may cover this in a later video.
+
+So while we wait, let's take a quick breather and talk about how can we protect ourselves from 3rd parties collecting our password strings?  The answer is to calculate the hashes locally.  The sample code has a "-h" command that allows you to enter any string and get the hash.  We'll demonstrate this once our password has been found.
+
+...
+
+The script will allow you to throw various arbitrary strings to the supported hash functions and it just gives you the hash.  We went online to compute hashes simply to demonstrate that a hash is highly standardized.
+
+...
+
+You might ask.... If we're attacking a security database, why not just change the hashes in the database to something we know like "password123".  Problem solved. Right?  Well, sometimes it is that simple, but any developer who knows what he is doing will protect the database (or at least this segment of it) with an integrity hash. If the integrity hash cannot be verified, the system knows that tampering has occurred.
+
+Again, use your skills for ethical purposes. Please review the links in this post and learn more about best practices in password storage.  Until next time, if you liked what you saw in this video, please like and subscribe.  I also do personal training in computer science to support cybersecurity.  If you're interested, I answer all emails and you can contact me directly.  Until then, keep cool and code on!!!
